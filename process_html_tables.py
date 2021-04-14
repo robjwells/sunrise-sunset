@@ -39,7 +39,7 @@ def date_lines_from_table(table: pd.DataFrame) -> list[tuple[int, str, str]]:
     return [parsed for parsed in maybe_parsed if parsed is not None]
 
 
-def process_lines(year: int, month: int) -> list[tuple[int, str, str]]:
+def load_lines(year: int, month: int) -> list[tuple[int, str, str]]:
     data = load_file(year, month)
     table = data_to_table(data)
     lines = date_lines_from_table(table)
@@ -62,16 +62,22 @@ def dates_to_dict(day: str, sunrise: str, sunset: str) -> dict[str, str]:
     }
 
 
+def date_data_to_dict(
+    year: int, month: int, sun_info: tuple[int, str, str]
+) -> dict[str, str]:
+    day, sunrise, sunset = sun_info
+    date_dict = dates_to_dict(
+        f"{year:02}-{month:02}-{day:02}",
+        parse_date(year, month, day, sunrise),
+        parse_date(year, month, day, sunset),
+    )
+    return date_dict
+
+
 def get_month(year: int, month: int) -> Iterator[dict[str, str]]:
-    lines = process_lines(year, month)
-    for line in lines:
-        day, sunrise, sunset = line
-        date_dict = dates_to_dict(
-            f"{year:02}-{month:02}-{day:02}",
-            parse_date(year, month, day, sunrise),
-            parse_date(year, month, day, sunset),
-        )
-        yield date_dict
+    sun_info_tuples = load_lines(year, month)
+    for sun_info in sun_info_tuples:
+        yield date_data_to_dict(year, month, sun_info)
 
 
 def get_all_months(years: list[int]) -> Iterator[dict[str, str]]:
