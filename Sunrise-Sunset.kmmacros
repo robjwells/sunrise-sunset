@@ -63,7 +63,7 @@
 								<key>Source</key>
 								<string>Nothing</string>
 								<key>Text</key>
-								<string>sqlite3 /Users/robjwells/Desktop/sunrise-sunset-times/sunrise-sunset-times.db &lt; /Users/robjwells/Desktop/sunrise-sunset-times/insert-sunset.sql</string>
+								<string>sqlite3 /Users/robjwells/projects/sunrise-sunset/sunrise-sunset-times.db &lt; /Users/robjwells/projects/sunrise-sunset/insert-sunset.sql</string>
 								<key>TimeOutAbortsMacro</key>
 								<true/>
 								<key>TrimResults</key>
@@ -81,7 +81,7 @@
 				<key>CreationDate</key>
 				<real>640086330.92746496</real>
 				<key>ModificationDate</key>
-				<real>640087372.56901705</real>
+				<real>640087543.00099397</real>
 				<key>Name</key>
 				<string>Sunset</string>
 				<key>Triggers</key>
