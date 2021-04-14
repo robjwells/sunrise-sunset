@@ -81,16 +81,30 @@
 				<key>CreationDate</key>
 				<real>640086330.92746496</real>
 				<key>ModificationDate</key>
-				<real>640087543.00099397</real>
+				<real>640088324.88158202</real>
 				<key>Name</key>
 				<string>Sunset</string>
 				<key>Triggers</key>
 				<array>
 					<dict>
-						<key>Cron</key>
-						<string>*/10 15-21 * * *</string>
+						<key>ExecuteType</key>
+						<string>While</string>
 						<key>MacroTriggerType</key>
-						<string>Cron</string>
+						<string>Time</string>
+						<key>Repeat</key>
+						<true/>
+						<key>RepeatTime</key>
+						<integer>600</integer>
+						<key>TimeFinishHour</key>
+						<integer>21</integer>
+						<key>TimeFinishMinutes</key>
+						<integer>40</integer>
+						<key>TimeHour</key>
+						<integer>15</integer>
+						<key>TimeMinutes</key>
+						<integer>50</integer>
+						<key>WhichDays</key>
+						<integer>127</integer>
 					</dict>
 				</array>
 				<key>UID</key>
@@ -183,16 +197,30 @@
 				<key>CreationDate</key>
 				<real>640084758.47243798</real>
 				<key>ModificationDate</key>
-				<real>640087354.32470095</real>
+				<real>640088270.91473305</real>
 				<key>Name</key>
 				<string>Sunrise</string>
 				<key>Triggers</key>
 				<array>
 					<dict>
-						<key>Cron</key>
-						<string>*/10 5-9 * * *</string>
+						<key>ExecuteType</key>
+						<string>While</string>
 						<key>MacroTriggerType</key>
-						<string>Cron</string>
+						<string>Time</string>
+						<key>Repeat</key>
+						<true/>
+						<key>RepeatTime</key>
+						<integer>600</integer>
+						<key>TimeFinishHour</key>
+						<integer>8</integer>
+						<key>TimeFinishMinutes</key>
+						<integer>20</integer>
+						<key>TimeHour</key>
+						<integer>4</integer>
+						<key>TimeMinutes</key>
+						<integer>40</integer>
+						<key>WhichDays</key>
+						<integer>127</integer>
 					</dict>
 				</array>
 				<key>UID</key>
