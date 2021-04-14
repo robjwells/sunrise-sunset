@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 import json
-from typing import cast, Iterator
+from typing import Iterator
 
 import pandas as pd  # type: ignore
-from pendulum.datetime import DateTime
 from pendulum.parser import parse
 
 
@@ -29,7 +28,7 @@ def load_file(year: int, month: int) -> str:
 
 
 def data_to_table(data: str) -> pd.DataFrame:
-    t = pd.read_html(data, attrs={'id': 'as-monthsun'})[0]
+    t = pd.read_html(data, attrs={"id": "as-monthsun"})[0]
     subset = t[t.keys()[:3]]
     return subset
 
@@ -47,9 +46,7 @@ def process_lines(year: int, month: int) -> list[tuple[int, str, str]]:
     return lines
 
 
-def parse_date(
-    year: int, month: int, day: int, time: str
-) -> str:
+def parse_date(year: int, month: int, day: int, time: str) -> str:
     date = parse(
         f"{year}-{month:02}-{day:02}T{time}",
         tz="Europe/London",
@@ -82,11 +79,10 @@ def get_all_months(years: list[int]) -> Iterator[dict[str, str]]:
         for month in range(1, 13):
             yield from get_month(year, month)
 
+
 def main() -> None:
-    print(
-        json.dumps(list(get_all_months([2021, 2022])))
-    )
+    print(json.dumps(list(get_all_months([2021, 2022]))))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
