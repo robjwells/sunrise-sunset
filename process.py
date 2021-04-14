@@ -56,7 +56,7 @@ def parse_date(
 
 def dates_to_dict(day: str, sunrise: str, sunset: str) -> dict[str, str]:
     return {
-        "day": day,
+        "date": day,
         "sunrise": sunrise,
         "sunset": sunset,
     }
