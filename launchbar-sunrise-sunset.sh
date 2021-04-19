@@ -58,35 +58,38 @@ function query() {
 		-- Use the empty string if sunrise/sunset is 0 minutes distant.
 		parts as (
 			select
-				*,
+				sunrise,
+				sunrise_past,
 				case when sunrise_hours > 1 then
 					sunrise_hours || ' hours '
 				when sunrise_hours = 1 then
 					sunrise_hours || ' hour '
 				else
 					''
-				end as srh,
+				end as sunrise_hours,
 				case when sunrise_minutes > 1 then
 					sunrise_minutes || ' minutes '
 				when sunrise_minutes = 1 then
 					sunrise_minutes || ' minute '
 				else
 					''
-				end as srm,
+				end as sunrise_minutes,
+				sunset,
+				sunset_past,
 				case when sunset_hours > 1 then
 					sunset_hours || ' hours '
 				when sunset_hours = 1 then
 					sunset_hours || ' hour '
 				else
 					''
-				end as ssh,
+				end as sunset_hours,
 				case when sunset_minutes > 1 then
 					sunset_minutes || ' minutes '
 				when sunset_minutes = 1 then
 					sunset_minutes || ' minute '
 				else
 					''
-				end as ssm
+				end as sunset_minutes
 			from
 				durations
 		),
@@ -94,9 +97,12 @@ function query() {
 		-- Combine the formatted hour/minute parts and trim any whitespace.
 		formatted as (
 			select
-				*,
-				trim(srh || srm) as sunrise_formatted,
-				trim(ssh || ssm) as sunset_formatted
+				sunrise,
+				sunrise_past,
+				trim(sunrise_hours || sunrise_minutes) as sunrise_formatted,
+				sunset,
+				sunset_past,
+				trim(sunset_hours || sunset_minutes) as sunset_formatted
 			from
 				parts
 		),
@@ -104,7 +110,7 @@ function query() {
 		-- Note whether sunrise/sunset is in the future or past, or now.
 		relative as (
 			select
-				*,
+				sunrise,
 				case when sunrise_past and length(sunrise_formatted) then
 					sunrise_formatted || ' ago'
 				when not sunrise_past and length(sunrise_formatted) then
@@ -112,6 +118,7 @@ function query() {
 				else
 					'right now'
 				end as sunrise_relative,
+				sunset,
 				case when sunset_past and length(sunset_formatted) then
 					sunset_formatted || ' ago'
 				when not sunset_past and length(sunset_formatted) then
@@ -121,17 +128,6 @@ function query() {
 				end as sunset_relative
 			from 
 				formatted
-		),
-
-		-- Select only the columns needed to format the LaunchBar items.
-		filtered as (
-			select
-				sunrise,
-				sunrise_relative,
-				sunset,
-				sunset_relative
-			from
-				relative
 		)
 
 		select
@@ -148,7 +144,7 @@ function query() {
 				)
 			) as launchbar_items
 		from
-			filtered
+			relative
 		;
 	EOF
 }
