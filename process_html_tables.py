@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import Iterator
 
 import pandas as pd  # type: ignore
@@ -39,9 +40,8 @@ def date_lines_from_table(table: pd.DataFrame) -> list[tuple[int, str, str]]:
     return [parsed for parsed in maybe_parsed if parsed is not None]
 
 
-def load_lines(year: int, month: int) -> list[tuple[int, str, str]]:
-    data = load_file(year, month)
-    table = data_to_table(data)
+def load_lines(file_contents: str) -> list[tuple[int, str, str]]:
+    table = data_to_table(file_contents)
     lines = date_lines_from_table(table)
     return lines
 
@@ -74,20 +74,16 @@ def date_data_to_dict(
     return date_dict
 
 
-def get_month(year: int, month: int) -> Iterator[dict[str, str]]:
-    sun_info_tuples = load_lines(year, month)
-    for sun_info in sun_info_tuples:
-        yield date_data_to_dict(year, month, sun_info)
-
-
-def get_all_months(years: list[int]) -> Iterator[dict[str, str]]:
-    for year in years:
-        for month in range(1, 13):
-            yield from get_month(year, month)
+def get_all_html() -> Iterator[dict[str, str]]:
+    files = Path(".").glob("*.html")
+    for f in files:
+        year, month = [int(part) for part in f.stem.split("-")[-2:]]
+        for sun_info in load_lines(f.read_text()):
+            yield date_data_to_dict(year, month, sun_info)
 
 
 def main() -> None:
-    print(json.dumps(list(get_all_months([2021, 2022]))))
+    print(json.dumps(list(get_all_html())))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,6 @@
+wheel
+html5lib
+lxml
+bs4
+pendulum
+pandas
